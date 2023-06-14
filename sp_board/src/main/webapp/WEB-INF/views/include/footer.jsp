@@ -30,6 +30,7 @@
 <!-- Bootstrap 4 -->
 <script src="<%=request.getContextPath() %>/resources/bootstrap/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
-<script src="dist/js/adminlte.min.js"></script>
+<script src="<%=request.getContextPath() %>/resources/bootstrap/dist/js/adminlte.min.js"></script>
+<%@ include file="footer_js.jsp" %>
 </body>
 </html>
