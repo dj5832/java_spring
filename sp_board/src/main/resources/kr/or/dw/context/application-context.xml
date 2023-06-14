@@ -5,5 +5,7 @@
 	
 	<bean id="memberService" class="kr.or.dw.service.MemberServiceImpl"/>
 	<bean id="menuService" class="kr.or.dw.service.MenuServiceImpl"/>
+	<bean id="boardService" class="kr.or.dw.service.BoardServiceImpl"/>
+	<bean id="pdsService" class="kr.or.dw.service.PdsServiceImpl"/>
 	
 </beans>

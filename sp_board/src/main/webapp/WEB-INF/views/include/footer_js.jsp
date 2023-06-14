@@ -47,7 +47,8 @@
 		if(typeof(history.pushState) == 'function'){
 			let renewURL = location.href;
 			renewURL = renewURL.substring(0, renewURL.indexOf(".do"));
-			console.log(renewURL);
+			
+			$('#if_list').prop('src', '<%=request.getContextPath()%>'+murl);
 		};
 	};
 </script>
