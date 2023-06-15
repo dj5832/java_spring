@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class MemberVO {
+	
 	private String id;
 	private String pwd;
 	private String email;
@@ -17,7 +18,7 @@ public class MemberVO {
 	private String register;
 	private String address;
 	private String authority;
-            
+	
 	public MemberVO() {};
 	
 	public MemberVO(String id, String pwd, String name, String phone, String email) {

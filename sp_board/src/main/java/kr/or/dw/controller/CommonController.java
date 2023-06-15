@@ -23,16 +23,15 @@ import kr.or.dw.vo.MenuVO;
 @Controller
 public class CommonController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
-
-
+	private static final Logger logger = LoggerFactory.getLogger(CommonController.class);
+	
 	@Autowired
 	private MemberService memberService;
-
+	
 	@Autowired
 	private MenuService menuService;
 	
-	@GetMapping(value="/common/loginForm")
+	@GetMapping("/common/loginForm")
 	public String loginForm(HttpServletResponse res) throws Exception {
 		String url = "/common/loginForm";
 		
@@ -49,12 +48,12 @@ public class CommonController {
 	}
 	
 	@RequestMapping("/index")
-	public ModelAndView index(ModelAndView mnv) throws SQLException {
-		String url = "/common/indexPage";
+	public ModelAndView index(ModelAndView mnv) throws SQLException{
+		String url = "/common/indexPage.page";
 		
 		List<MenuVO> menuList = menuService.selectMainMenuList();
 		
-		mnv.addObject("menuList",menuList);
+		mnv.addObject("menuList", menuList);
 		mnv.setViewName(url);
 		
 		return mnv;
@@ -63,12 +62,11 @@ public class CommonController {
 	@RequestMapping("/common/handlebarsTest")
 	public String handlebarsTest() {
 		String url = "/common/handlebarsTest";
-		
 		return url;
 	}
 	
 	@RequestMapping("/common/subMenu")
-	public ResponseEntity<List<MenuVO>> subMenu(String mcode) {
+	public ResponseEntity<List<MenuVO>> subMenu(String mcode){
 		ResponseEntity<List<MenuVO>> entity = null;
 		
 		List<MenuVO> subMenu = null;
@@ -81,5 +79,6 @@ public class CommonController {
 		
 		return entity;
 	}
+	
 	
 }

@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <!--
@@ -26,11 +27,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" role="button"><i class="fas fa-bars"></i></a>
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <c:forEach items="${menuList}" var="menu">
       	<li class="nav-item">
-      		<a href="javascript:subMenu('${menu.mcode}'); goPage('${menu.murl }');" class="nav-link">${menu.mname }</a>
+      		<a href="javascript:subMenu('${menu.mcode }'); goPage('${menu.murl }', '${menu.mcode }');" class="nav-link">${menu.mname }</a>
       	</li>
       </c:forEach>
     </ul>
@@ -183,6 +184,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <ul class="nav nav-pills nav-sidebar flex-column subMenuList" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+        
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

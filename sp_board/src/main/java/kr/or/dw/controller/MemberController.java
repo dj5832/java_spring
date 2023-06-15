@@ -13,14 +13,13 @@ import kr.or.dw.service.MemberService;
 public class MemberController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
-
+	
 	@Autowired
 	private MemberService memberService;
 	
 	@RequestMapping("/main")
 	public String main() {
-		String url = "/member/main";
+		String url = "/member/main.open";
 		return url;
 	}
-	
 }

@@ -11,21 +11,17 @@ import kr.or.dw.vo.MenuVO;
 
 @Service
 public class MenuServiceImpl implements MenuService{
-
+	
 	@Autowired
-	private MenuDAO menuDAO;
-	
-	
+	private MenuDAO menuDAO;	// == MenuDAOImpl.getInstance();
 	
 	@Override
 	public List<MenuVO> selectMainMenuList() throws SQLException {
-	
+		
 		List<MenuVO> menuList = menuDAO.selectMainMenuList();
 		
 		return menuList;
 	}
-
-
 
 	@Override
 	public List<MenuVO> selectSubMenuList(String mcode) throws SQLException {

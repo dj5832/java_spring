@@ -9,10 +9,9 @@ import kr.or.dw.vo.MenuVO;
 
 @Mapper
 public interface MenuDAO {
-
+	
 	List<MenuVO> selectMainMenuList() throws SQLException;
 	
 	List<MenuVO> selectSubMenuList(String mcode) throws SQLException;
-	
 	
 }

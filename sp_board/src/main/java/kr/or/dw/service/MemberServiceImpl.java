@@ -12,7 +12,7 @@ import kr.or.dw.vo.MemberVO;
 
 @Service
 public class MemberServiceImpl implements MemberService{
-
+	
 	@Autowired
 	private MemberDAO memberDAO;
 	
@@ -21,10 +21,12 @@ public class MemberServiceImpl implements MemberService{
 		MemberVO member = memberDAO.selectMemberById(id);
 		
 		if(pwd.equals(member.getPwd())) {
-			System.out.println("로그인 성공!!!!!!!!!!!!!!!!!!!!!!!!!!!! 회원의 정보를 세션에 저장합니다.");
+			System.out.println("[로그인 성공!!!] 회원의 정보를 세션에 저장합니다.");
 			session.setAttribute("loginUser", member);
 			session.setMaxInactiveInterval(5 * 60);
 		}
+		
+		
 		
 	}
 

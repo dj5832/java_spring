@@ -11,5 +11,5 @@
 		location="classpath:kr/or/dw/properties/*.properties"/>
 	
 	<import resource="dataSource-context.xml"/>
-	<import resource="application-context.xml"/>		
+	<import resource="application-context.xml"/>
 </beans>

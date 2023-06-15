@@ -5,8 +5,8 @@ import lombok.Data;
 @Data
 public class MenuVO {
 	
-	private String mname;
 	private String mcode;
+	private String mname;
 	private String murl;
 	private String micon;
 	private String upcode;

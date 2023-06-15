@@ -2,10 +2,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
-	
+
 	<bean id="memberService" class="kr.or.dw.service.MemberServiceImpl"/>
 	<bean id="menuService" class="kr.or.dw.service.MenuServiceImpl"/>
-	<bean id="boardService" class="kr.or.dw.service.BoardServiceImpl"/>
-	<bean id="pdsService" class="kr.or.dw.service.PdsServiceImpl"/>
-	
+
 </beans>
