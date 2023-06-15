@@ -1,6 +1,7 @@
 package kr.or.dw.service;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -28,6 +29,14 @@ public class MemberServiceImpl implements MemberService{
 		
 		
 		
+	}
+
+	@Override
+	public List<MemberVO> selectMemberList() throws SQLException {
+		
+		List<MemberVO> memberList = memberDAO.selectMemberList();
+		
+		return memberList;
 	}
 
 }

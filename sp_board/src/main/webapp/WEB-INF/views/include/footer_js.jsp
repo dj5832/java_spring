@@ -5,7 +5,7 @@
 <script type="text/x-handlebars-template" id="subMenu-list-template">
 {{#each .}}
 	<li class="nav-item">
-		<a href="javascript:goPage('{{murl}}');" class="nav-link">
+		<a href="javascript:goPage('{{murl}}', '{{mcode}}');" class="nav-link">
 			<i class="{{micon}}"></i>
 			<p>{{mname}}</p>
 		</a>
