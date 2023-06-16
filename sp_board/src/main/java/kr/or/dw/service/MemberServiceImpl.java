@@ -20,14 +20,14 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public void login(String id, String pwd, HttpSession session) throws SQLException {
 		MemberVO member = memberDAO.selectMemberById(id);
-		
+	
 		if(pwd.equals(member.getPwd())) {
 			System.out.println("[로그인 성공!!!] 회원의 정보를 세션에 저장합니다.");
 			session.setAttribute("loginUser", member);
 			session.setMaxInactiveInterval(5 * 60);
 		}
 		
-		
+	
 		
 	}
 
