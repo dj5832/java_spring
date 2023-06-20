@@ -16,5 +16,34 @@
 		  FROM member
 		 ORDER BY regdate desc
 	</select>
+	
+	<insert id="insertMember" parameterType="member">
+		INSERT INTO member (
+							id,
+							pwd,
+							email,
+							picture,
+							enabled,
+							regdate,
+							phone,
+							name,
+							register,
+							address,
+							authority
+								)
+					values(
+							#{id},	
+							#{pwd},	
+							#{email},	
+							#{picture},	
+							1,
+							SYSDATE,	
+							#{phone},
+							#{name},
+							'SYSTEM',
+							'',
+							#{authority}
+								)
+	</insert>
 
 </mapper>

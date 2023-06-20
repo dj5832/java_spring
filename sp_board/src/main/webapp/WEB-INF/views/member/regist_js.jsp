@@ -4,12 +4,14 @@
 <form role="imageForm" action="upload/picture.do" method="post" enctype="multipart/form-data">
 	<input type="file" id="inputFile" style="display: none;" name="pictureFile" class="form-control" onchange="imageChange_go();">
 	<input type="hidden" value="" id="oldFile" name="oldPicture">
+	<input type="hidden" name="checkUpload" value="0">
 </form>
     
 <script>
 	
 	// 사진이 변경됐을 때
 	function imageChange_go(){
+		$('input[name="checkUpload"]').val(0);
 		preViewPicture($('input#inputFile')[0], $('div#pictureView'));
 	};
 	
@@ -33,8 +35,12 @@
 			processData : false,
 			contentType : false,
 			success : function(data){
+				// 업로드 확인 변수 세팅
+				$('input[name="checkUpload"]').val(1);
+
 				// 저장된 파일명 저장
 				$('input#oldFile').val(data);	// 이미지 변경시 이것과 비교해서 다르다면 삭제될 파일명(전 파일)
+				$('form[role="form"] input[name="picture"]').val(data);
 				
 				alert("이미지가 변경되었습니다.");
 			},
@@ -44,6 +50,9 @@
 			}
 		});
 	};
+	
+	// 아이디 중복확인으로 확인된 아이디가 저장될 변수
+	let checkedID = "";
 	
 	function idCheck_go(){
 		let input_ID = $('#id');
@@ -72,6 +81,8 @@
 			success : function(result){
 				if(result){// 빈 스트링은 false 처리 됨
 					alert("사용가능한 아이디입니다.")
+					checkedID = result;
+					$('input[name="id"]').val(checkedID);
 				}else{
 					alert("중복된 아이디 입니다.");
 					input_ID.focus();
@@ -82,6 +93,40 @@
 				
 			}
 		});
+		
+	};
+	
+	function submit_go(){
+		let uploadCheck = $('input[name="checkUpload"]').val();
+		
+		if(!(uploadCheck > 0)){
+			alert('이미지 업로드는 필수입니다.');
+			return;
+		};
+		
+		if($('input[name="id"]').val() == ""){
+			alert('아이디는 필수 입니다.');
+			$('input[name="id"]').focus();
+			return;
+		};
+		
+		if($('input[name="id"]').val() != checkedID){
+			alert('아이디 중복확인이 필요합니다.');
+		};
+		
+		if($('input[name="pwd"]').val() == ""){
+			alert('비밀번호는 필수입니다.');
+			$('input[name="pwd"]').focus();
+			return;
+		};
+		
+		if($('input[name="name"]').val() == ""){
+			alert('이름은 필수입니다.');
+			$('input[name="name"]').foucs();
+			return;
+		};
+		
+		$('form[role="form"]').submit();
 	};
 	
 </script>

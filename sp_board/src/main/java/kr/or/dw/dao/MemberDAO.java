@@ -15,5 +15,7 @@ public interface MemberDAO {
 
 	// 모든 회원 정보 조회
 	List<MemberVO> selectMemberList() throws SQLException;
+
+	void insertMember(MemberVO member) throws SQLException;
 	
 }

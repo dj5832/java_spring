@@ -14,7 +14,7 @@
 			<div class="card">
 				<div class="register-card-body">
 					<form role="form" class="form-horizontal" action="regist.do" method="post">
-						
+						<input type="hidden" name="picture">
 						<!-- 프로필 사진 선택 부분 -->
 						<div class="input-group mb-3">
 							<div class="mailbox-attachments clearfix" style="text-align: center;">
@@ -90,7 +90,7 @@
 						<div class="card-footer">
 							<div class="row">
 								<div class="col-sm-6">
-									<button type="button" id="registBtn" class="btn btn-info" onclick="">가입하기</button>
+									<button type="button" id="registBtn" class="btn btn-info" onclick="submit_go();">가입하기</button>
 								</div>
 								<div class="col-sm-6">
 									<button type="button" id="cancelBtn" class="btn btn-danger float-right" onclick="CloseWindow();">&nbsp;&nbsp;&nbsp;취&nbsp;&nbsp;&nbsp;소&nbsp;&nbsp;&nbsp;</button>

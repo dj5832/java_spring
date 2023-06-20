@@ -49,7 +49,7 @@
 					'background-position ' : 'center',
 					'background-size' : 'cover',
 					'background-repeat' : 'no-repeat'
-				});
+				}); 
 			};
 			reader.readAsDataURL(inputImage.files[0]);
 		};
