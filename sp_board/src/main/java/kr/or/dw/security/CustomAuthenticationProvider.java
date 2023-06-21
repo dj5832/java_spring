@@ -24,15 +24,18 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 		String login_pwd = (String) auth.getCredentials(); // 로그인 시도한 password를 가져온다.
 		
 		MemberVO member = null;
-		
+			
 		try {
 			member = memberDAO.selectMemberById(login_id);
 		} catch (SQLException e) {
 			throw new AuthenticationServiceException("Internal server error !!"); 
 		}
-		
 		if(member != null && login_pwd.equals(member.getPwd())) { // 로그인 성공
 			
+			if(member.getEnabled() == 0) {
+				throw new BadCredentialsException("정지임");
+			}
+
 			User authUser = new User(member);
 			
 			// 스프링 시큐리티 내부 클래스로 인증 토큰을 생성한다.

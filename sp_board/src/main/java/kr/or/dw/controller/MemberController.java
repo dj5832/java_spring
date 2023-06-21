@@ -1,38 +1,33 @@
 package kr.or.dw.controller;
 
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.CacheControl;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.or.dw.command.MemberModifyCommand;
 import kr.or.dw.command.MemberRegistCommand;
 import kr.or.dw.service.MemberService;
 import kr.or.dw.vo.MemberVO;
@@ -72,7 +67,7 @@ public class MemberController {
 	// 회원등록
 	@RequestMapping("/registForm")
 	public String registForm() {
-		String url = "member/regist.open";
+		String url = "/member/regist.open";
 		
 		return url;
 	}
@@ -106,6 +101,126 @@ public class MemberController {
 		}
 		return entity;
 	}
+	
+	@RequestMapping("/detail")
+	public ModelAndView detailForm(ModelAndView mnv, String id) throws SQLException {
+		String url = "/member/detail.open";
+		
+		MemberVO member = memberService.selectMemberById(id);
+		
+		mnv.addObject("member", member);
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	@RequestMapping("/modifyForm")
+	public ModelAndView modifyForm(String id, ModelAndView mnv)throws SQLException{
+		String url = "/member/modify.open";
+		
+		MemberVO member = memberService.selectMemberById(id);
+		
+		mnv.addObject("member", member);
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	@RequestMapping("/modify")
+	public void modify(MemberModifyCommand modifyReq, HttpServletResponse res) throws Exception{
+		MemberVO member = modifyReq.toParseMember();
+		
+		String fileName = savePicture(modifyReq.getPicture(), modifyReq.getOldPicture());
+		member.setPicture(fileName);
+		
+		if(modifyReq.getPicture().isEmpty()) {
+			member.setPicture(modifyReq.getOldPicture());
+		};
+		
+		memberService.modify(member);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		String output = "" + "<script>" + "alert('수정되었습니다.');" + "location.href='detail.do?id=" + member.getId()
+		+ "';" + "window.opener.location.reload();" + "</script>";
+		out.println(output);
+		out.close();
+		
+	}
+	
+	@RequestMapping("/remove")
+	public ModelAndView remove(String id, HttpSession session, ModelAndView mnv) throws SQLException {
+		String url = "/member/removeSuccess";
+		
+		MemberVO member = null;
+		
+		// 이미지 파일 삭제
+		member = memberService.selectMemberById(id);
+		
+		String savePath = this.picturePath;
+		File imageFile = new File(savePath, member.getPicture());
+		if(imageFile.exists()) {
+			imageFile.delete();
+		};
+		
+		memberService.remove(id);
+		
+		// 삭제되는 회원이 로그인 회원인 경우 로그아웃을 해야함.
+		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
+		if(loginUser.getId().equals(member.getId())) {
+			session.invalidate();
+		};
+		
+		mnv.addObject("member", member);
+		mnv.setViewName(url);
+		
+		return mnv;
+	}
+	
+	@RequestMapping("/stop")
+	public ModelAndView stop(String id, HttpSession session, ModelAndView mnv) throws SQLException {
+		String url = "/member/stopSuccess";
+		
+		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
+		if(id.equals(loginUser.getId())) {
+			url = "/member/stopFail";
+		}else {
+			memberService.disabled(id);
+		}
+		
+		mnv.addObject("id", id);
+		mnv.setViewName(url);
+		
+		return mnv;
+	}
+	
+//	@RequestMapping("/delete")
+//	public String delete(String id, HttpServletResponse res) throws Exception{
+//		memberService.delete(id);
+//
+//		res.setContentType("text/html; charset=utf-8");
+//		PrintWriter out = res.getWriter();
+//		out.println("<script>");
+//		out.println("alert('회원삭제가 정상적으로 되었습니다.')");
+//		out.println("window.opener.location.href='/member/list.do';");
+//		out.println("window.close();");
+//		out.println("</script>");
+//		
+//		return null;
+//	}
+	
+//	@RequestMapping("/stop")
+//	public void stop(String id, HttpServletResponse res) throws Exception {
+//		
+//		memberService.stop(id);
+//		
+//		res.setContentType("text/html; charset=utf-8");
+//		PrintWriter out = res.getWriter();
+//		out.println("<script>");
+//		out.println("alert('회원정지가 정상적으로 되었습니다.')");
+//		out.println("location.href='/member/detail.do?id="+id+"';");
+//		out.println("window.opener.location.reload();");
+//		out.println("</script>");
+//	}
+	
 	
 	@RequestMapping("/picture")
 	public ResponseEntity<String> picture(@RequestParam("pictureFile") MultipartFile multi, String oldPicture) throws Exception{
@@ -162,35 +277,23 @@ public class MemberController {
 		return fileName;
 	}
 	
-	@RequestMapping("/detailForm")
-	public ModelAndView detailForm(ModelAndView mnv, String id) throws SQLException {
-		String url = "member/detailForm.open";
+	@RequestMapping("/getPicture")
+	public ResponseEntity<byte[]> getPicture(String picture) throws Exception{
+		InputStream in = null;
+		ResponseEntity<byte[]> entity = null;
+		String imgPath = this.picturePath;
 		
-		MemberVO member = memberService.selectMemberById(id);
-		
-		mnv.addObject("member", member);
-		mnv.setViewName(url);
-		return mnv;
-	}
-	
-	@RequestMapping(value = "/detailForm", method = RequestMethod.GET)
-	public ResponseEntity<byte[]> getImageAsResponseEntity(HttpServletRequest req, String id) throws IOException, SQLException {
-
-	    MemberVO member = memberService.selectMemberById(id);
-
-	    String pictureFilePath = "C:/member/picture/upload" + member.getPicture();
-
-	    System.out.println(pictureFilePath);
-	    ServletContext servletContext = req.getSession().getServletContext();
-	    InputStream in = servletContext.getResourceAsStream(pictureFilePath);
-	    
-	    byte[] media = IOUtils.toByteArray(in);
-
-	    HttpHeaders headers = new HttpHeaders();
-	    headers.setCacheControl(CacheControl.noCache().getHeaderValue());
-	    
-	    ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(media, headers, HttpStatus.OK);
-	    return responseEntity;
+		try {
+			in = new FileInputStream(new File(imgPath, picture));
+			
+			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), HttpStatus.CREATED);	
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
+		} finally {
+			in.close();
+		}
+		return entity;
 	}
 	
 }

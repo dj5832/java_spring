@@ -45,5 +45,30 @@
 							#{authority}
 								)
 	</insert>
+	
+	<update id="updateMember" parameterType="member">
+		UPDATE member SET 
+						  pwd	 	= #{pwd}
+						 ,name 		= #{name}
+					  	 ,email 	= #{email}
+						 ,phone 	= #{phone}
+						 ,picture 	= #{picture}
+						 ,authority = #{authority}
+		 WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteMember" parameterType="str">
+		DELETE member WHERE id = #{id}
+	</delete>
+	
+	<update id="disabledMember" parameterType="str">
+		UPDATE member SET enabled = 0
+		 WHERE id = #{id}
+	</update>
+	
+	<update id="enabledMember" parameterType="str">
+		UPDATE member SET enabled = 1
+		 WHERE id = #{id}
+	</update>
 
 </mapper>

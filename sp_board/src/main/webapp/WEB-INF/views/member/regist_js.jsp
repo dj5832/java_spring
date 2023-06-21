@@ -129,4 +129,8 @@
 		$('form[role="form"]').submit();
 	};
 	
+	function update_submit_go(){
+		$('form[role="updateForm"]').submit();
+	}
+	
 </script>
