@@ -5,6 +5,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
+<c:set var="cri" value="${pageMaker.cri }"/>
+
 	<div class="content-wrapper">
     	<jsp:include page="../content_header.jsp">
 			<jsp:param value="회원목록" name="subject"/>
@@ -22,20 +24,20 @@
 				  <!-- sort num -->
 				 	<select class="form-control col-md-3" name="perPageNum" id="perPageNum">
 				 		<option value="10">정렬개수</option>
-				 		<option value="2">2개씩</option>
-				 		<option value="3">3개씩</option>
-				 		<option value="5">5개씩</option>
+				 		<option value="2" ${cri.perPageNum == 2 ? 'selected' : '' }>2개씩</option>
+				 		<option value="3" ${cri.perPageNum == 3 ? 'selected' : '' }>3개씩</option>
+				 		<option value="5" ${cri.perPageNum == 5 ? 'selected' : '' }>5개씩</option>
 				 	</select>
 				 <!-- search bar -->
 				 	<select class="form-control col-md-3" name="searchType" id="searchType">
-				 		<option value="">검색구분</option>
-				 		<option value="i">아이디</option>
-				 		<option value="p">전화번호</option>
-				 		<option value="e">이메일</option>
+				 		<option value="" ${cri.searchType == '' ? 'selected' : '' }>검색구분</option>
+				 		<option value="i" ${cri.searchType == 'i' ? 'selected' : '' }>아이디</option>
+				 		<option value="p" ${cri.searchType == 'p' ? 'selected' : '' }>전화번호</option>
+				 		<option value="e" ${cri.searchType == 'e' ? 'selected' : '' }>이메일</option>
 				 	</select>
-				 	<input class="form-control" type="text" name="keyword" placeholder="검색어를 입력하세요." value="" />
+				 	<input class="form-control" type="text" name="keyword" placeholder="검색어를 입력하세요." value="${cri.keyword }" />
 				 	<span class="input-group-append">
-				 		<button class="btn btn-primary" type="button" id="searchBtn" data--card-widget="search" onclick="">
+				 		<button class="btn btn-primary" type="button" id="searchBtn" data--card-widget="search" onclick="searchList_go(1);">
 				 			<i class="fa fa-fw fa-search"></i>
 				 		</button>
 				 	
@@ -76,15 +78,18 @@
 			               	</tr>
 		               	</c:forEach>
 		    		</table>
-    		   </div> <!-- col-sm-12 -->
-    		 </div> <!-- row -->
-    		</div> <!-- card-body -->
+    		   </div> 
+    		   <!-- col-sm-12 -->
+    		 </div> 
+    		 <!-- row -->
+    		</div> 
+    		<!-- card-body -->
     		<div class="card-footer">
-
-          </div> <!-- cardfooter  -->
-          </div> <!-- card  -->
+				<%@ include file="/WEB-INF/views/common/pagination.jsp" %>
+          </div> 
+          <!-- cardfooter  -->
+          </div> 
+          <!-- card  -->
     	</section>	
    </div>
-<script>
 
-</script>

@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.dw.service.MemberService;
@@ -83,15 +84,25 @@ public class CommonController {
 	}
 	
 	@RequestMapping("/index")
-	public ModelAndView index(ModelAndView mnv) throws SQLException{
+	// defaultValue = 알아서 기본값을 설정해줌;
+	public ModelAndView index(@RequestParam(defaultValue="M000000") String mcode, ModelAndView mnv) throws SQLException{
 		String url = "/common/indexPage.page";
 		
 		List<MenuVO> menuList = menuService.selectMainMenuList();
+		MenuVO menu = menuService.selectMenuByMcode(mcode);
 		
 		mnv.addObject("menuList", menuList);
+		mnv.addObject("menu", menu);
 		mnv.setViewName(url);
 		
 		return mnv;
+	}
+	
+	@RequestMapping("/main")
+	public String main() {
+		String url = "/common/main.open";
+		
+		return url;
 	}
 	
 	@RequestMapping("/common/handlebarsTest")

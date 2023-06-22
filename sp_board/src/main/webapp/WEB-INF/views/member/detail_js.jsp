@@ -4,11 +4,6 @@
 <script>
 
 window.onload = function(){
-	if(${member.enabled} == 1){
-		$('button#stopBtn').text('정 지');
-	}else{
-		$('button#stopBtn').text('해 제');
-	}
 	
 	// 프로필 이미지 불러오기
 	let imageURL = "getPicture.do?picture=${member.picture}";	// 이미지명 가지고 와서 셋팅
@@ -30,9 +25,14 @@ window.onload = function(){
 		}
 	});
 	// 정지 버튼 클릭
-		$('button#stopBtn').on('click', function(){
-			location.href="stop.do?id=${member.id}";
-		});
+	$('button#stopBtn').on('click', function(){
+		let enabled = ${member.enabled};
+		let urlStr = "stop.do";
+		if(enabled == 0){
+			urlStr = "rerole.do"
+		};
+		location.href = urlStr + "?id=${member.id}";
+	});
 }
 
 

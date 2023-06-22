@@ -52,7 +52,7 @@
 								<input name="phone" type="text" id="phone" class="form-control" value="${member.phone }" readonly>
 							</div>
 						</div>
-						q
+						
 						<div class="card-footer">
 							<div class="row">
 <!-- 							 c:set으로 value를 var에 담는다. -->
@@ -67,7 +67,7 @@
 									<button type="button" id="removeBtn" class="btn btn-danger" style="display: ${visible}">삭 제</button>
 								</div>
 								<div class="col-sm-3 text-center">
-									<button type="button" id="stopBtn" class="btn btn-info" style="display: ${visible}">정 지</button>
+									<button type="button" id="stopBtn" class="btn btn-info" style="display: ${visible}">${member.enabled == 1 ? '정 지' : '해 제' }</button>
 								</div>
 								<div class="col-sm-3 text-center">
 									<button type="button" id="listBtn" class="btn btn-primary" onclick="CloseWindow();">닫 기</button>

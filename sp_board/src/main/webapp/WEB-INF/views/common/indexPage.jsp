@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
    
-<%-- <%@ include file="../include/header.jsp" %> --%>
 
 <div id="if_list_div" style="position: relative; padding:0; overflow: hidden; height: 855px;">
 	<iframe id="if_list" name="if_list" frameborder="0" scrolling="0" src=""
@@ -10,4 +9,3 @@
 	</iframe>
 </div>
 
-<%-- <%@ include file="../include/footer.jsp" %> --%>

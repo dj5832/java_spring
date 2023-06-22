@@ -22,6 +22,7 @@
 	}
 
 	function subMenu(mcode){
+		console.log(mcode)
 		if(mcode != 'M000000'){
 			$.ajax({
 				url : "<%=request.getContextPath()%>/common/subMenu.do?mcode="+mcode,
@@ -62,5 +63,7 @@
 		
 	};
 	
+	subMenu('${menu.mcode}'.substring(0,3)+"0000");
+	goPage('${menu.murl}', '${menu.mcode}');
 	
 </script>

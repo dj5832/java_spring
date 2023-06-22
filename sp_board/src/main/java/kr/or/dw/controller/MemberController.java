@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -29,6 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.dw.command.MemberModifyCommand;
 import kr.or.dw.command.MemberRegistCommand;
+import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.service.MemberService;
 import kr.or.dw.vo.MemberVO;
 
@@ -48,17 +51,12 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/list")
-	public ModelAndView list(ModelAndView mnv) {
+	public ModelAndView list(ModelAndView mnv, SearchCriteria cri) throws SQLException {
 		String url = "/member/list.open";
-		List<MemberVO> memberList = null;
 		
-		try {
-			memberList = memberService.selectMemberList();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		Map<String, Object> dataMap = memberService.selectSearchMemberList(cri);
 		
-		mnv.addObject("memberList", memberList);
+		mnv.addAllObjects(dataMap);
 		mnv.setViewName(url);
 		
 		return mnv;
@@ -179,13 +177,35 @@ public class MemberController {
 	public ModelAndView stop(String id, HttpSession session, ModelAndView mnv) throws SQLException {
 		String url = "/member/stopSuccess";
 		
+		MemberVO member = null;
+		
+		member = memberService.selectMemberById(id);
+		
 		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
 		if(id.equals(loginUser.getId())) {
 			url = "/member/stopFail";
 		}else {
-			memberService.disabled(id);
+//			if(member.getEnabled() == 1) {
+				memberService.disabled(id);				
+//			}else {
+//				memberService.enabled(id);
+//			}
 		}
 		
+		mnv.addObject("msg", "정지");
+		mnv.addObject("id", id);
+		mnv.setViewName(url);
+		
+		return mnv;
+	}
+	
+	@RequestMapping("/rerole")
+	public ModelAndView rerole(String id, ModelAndView mnv) throws SQLException {
+		String url = "/member/stopSuccess";
+		
+		memberService.enabled(id);
+		
+		mnv.addObject("msg", "정지해제");
 		mnv.addObject("id", id);
 		mnv.setViewName(url);
 		
