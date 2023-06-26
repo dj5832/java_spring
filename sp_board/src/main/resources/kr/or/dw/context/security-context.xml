@@ -15,31 +15,32 @@
 		데이터베이스에서 정보를 가져오도록 이 인터페이스를 구현해둔 클래스가 org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl 이다.
 	 -->
 	 <authentication-manager>
-	 	<authentication-provider ref="authenticator"/>	
+	 	<authentication-provider ref="authenticator"/>
 	 </authentication-manager>
 	 
 	 <beans:bean id="authenticator"
 	 			 class="kr.or.dw.security.CustomAuthenticationProvider"/>
 	 
-	 <!-- 인허가 -->
-	 <!-- 
-	 	[표현식]
-	 	hasRole(role) : 현재 로그인된 사용자가 지정된 role을 가지고 있으면 true 를 반환한다. 제공된 role이 'ROLE_' 로 시작하지 않으면 기본적으로 'ROLE_'를 추가한다.
-	 	hasAnyRole(role1, role2 ...) : 현재 로그인된 사용자가 콤마(,)로 분리하면 주어진 role들 중 하나라도 가지고 있으면 true를 반환한다.
-	 	hasAuthority(auth) : 현재 로그인된 사용자가 지정된 권한이 있으면 true를 반환한다.
-	 	hasAnyAuthority(auth1, auth2....) : 현재 로그인 된 사용자가 콤마(,)로 분리하여 주어진 권한들 중 하나라도 가지고 있으면 true를 반환한다.
-	  -->
-	  <http pattern="/resources/**" security="none"/>
-	  
+	<!-- 인허가 -->
+	<!-- 
+		[표현식]
+		hasRole(role) : 현재 로그인된 사용자가 지정된 role을 가지고 있으면 true 를 반환한다. 제공된 role이 'ROLE_'로 시작하지 않으면 기본적으로 'ROLE_'를 추가한다.
+		hasAnyRole(role1, role2, ...) : 현재 로그인된 사용자가 콤마(,)로 분리하여 주어진 role들 중 하나라도 가지고 있으면 true를 반환한다.
+		hasAuthority(auth) : 현재 로그인된 사용자가 지정된 권한이 있으면 true를 반환한다. 
+		hasAnyAuthority(auth1, auth2, ...) : 현재 로그인된 사용자가 콤마(,)로 분리하여 주어진 권한들 중 하나라도 가지고 있으면 true를 반환한다. 
+	 -->
+	<http pattern="/resources/**" security="none"/> 
+	 
 	<http use-expressions="true" pattern="/**">
 		<access-denied-handler error-page="/security/accessDenied"/>
-		<intercept-url pattern="/**/regist*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')"/>
-		<intercept-url pattern="/**/modify*" access="hasAnyRole('ROLE_ADMIN')"/>
-		<intercept-url pattern="/**/remove*" access="hasAnyRole('ROLE_ADMIN')"/>
-		<intercept-url pattern="/**/stop*" access="hasAnyRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/**/regist*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')"/>		
+		<intercept-url pattern="/**/modify*" access="hasAnyRole('ROLE_ADMIN')"/>		
+		<intercept-url pattern="/**/remove*" access="hasAnyRole('ROLE_ADMIN')"/>		
+		<intercept-url pattern="/**/stop*" access="hasAnyRole('ROLE_ADMIN')"/>		
 		
 		<intercept-url pattern="/index.do**" access="isAuthenticated()"/>
 		<intercept-url pattern="/member/**" access="isAuthenticated()"/>
+
 		<intercept-url pattern="/**" access="permitAll"/>
 		
 		<!-- 
@@ -66,7 +67,7 @@
 		/>
 		
 		<session-management invalid-session-url="/common/LoginTimeOut">
-			<concurrency-control
+			<concurrency-control 
 				expired-url="/common/LoginExpired"
 				max-sessions="1"
 				session-registry-ref="sessionRegistry"
@@ -75,15 +76,14 @@
 		
 	</http>
 	
-	<beans:bean id="loginSuccessHandler"
-				class="kr.or.dw.security.loginSuccessHandler"
+	<beans:bean id="loginSuccessHandler" 
+				class="kr.or.dw.security.LoginSuccessHandler"
 				p:defaultTargetUrl="/index.do"/>
-	<beans:bean id="loginFailureHandler"
-				class="kr.or.dw.security.loginFailureHandler"
-				/>
+	<beans:bean id="loginFailureHandler" 
+				class="kr.or.dw.security.LoginFailureHandler"/>
 	<beans:bean id="sessionRegistry"
 				class="org.springframework.security.core.session.SessionRegistryImpl"/>
 	<beans:bean id="sessionDestoryListener"
-				class="kr.or.dw.security.SessionDestroyListener"/>
+				class="kr.or.dw.security.SessionDestroyListener"/>	
 		
 </beans:beans>

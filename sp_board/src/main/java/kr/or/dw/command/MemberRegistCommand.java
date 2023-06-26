@@ -23,7 +23,7 @@ public class MemberRegistCommand {
 			phone += data;
 		};
 		
-		// MemberVO setting
+		//
 		MemberVO member = new MemberVO();
 		member.setId(id);
 		member.setPwd(pwd);
@@ -35,5 +35,4 @@ public class MemberRegistCommand {
 		
 		return member;
 	}
-	
 }

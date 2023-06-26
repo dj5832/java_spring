@@ -14,7 +14,7 @@ public interface MenuDAO {
 	
 	List<MenuVO> selectSubMenuList(String mcode) throws SQLException;
 
-	// mcode를 가져오는 메서드
 	MenuVO selectMenuByMcode(String mcode) throws SQLException;
+
 	
 }

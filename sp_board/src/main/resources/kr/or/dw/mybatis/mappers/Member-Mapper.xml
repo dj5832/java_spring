@@ -11,76 +11,56 @@
 		 WHERE id = #{id}
 	</select>
 	
-	<select id="selectMemberList" resultType="member">
+	<select id="selectAllMemberList" resultType="member">
 		SELECT *
 		  FROM member
 		 ORDER BY regdate desc
 	</select>
 	
 	<insert id="insertMember" parameterType="member">
-		INSERT INTO member (
-							id,
-							pwd,
-							email,
-							picture,
-							enabled,
-							regdate,
-							phone,
-							name,
-							register,
-							address,
-							authority
-								)
-					values(
-							#{id},	
-							#{pwd},	
-							#{email},	
-							#{picture},	
-							1,
-							SYSDATE,	
-							#{phone},
-							#{name},
-							'SYSTEM',
-							'',
-							#{authority}
-								)
+		INSERT INTO member(id, pwd, email, phone, picture, name, authority, enabled, regdate)
+		VALUES(#{id}, #{pwd}, #{email}, #{phone}, #{picture}, #{name}, #{authority}, 1, SYSDATE)
 	</insert>
 	
 	<update id="updateMember" parameterType="member">
-		UPDATE member SET 
-						  pwd	 	= #{pwd}
-						 ,name 		= #{name}
-					  	 ,email 	= #{email}
-						 ,phone 	= #{phone}
-						 ,picture 	= #{picture}
-						 ,authority = #{authority}
-		 WHERE id = #{id}
+		UPDATE member
+		SET
+			pwd 		= #{pwd}
+		   ,email 		= #{email}
+		   ,phone 		= #{phone}
+		   ,name 		= #{name}
+		   ,picture 	= #{picture}
+		   ,authority 	= #{authority}
+		WHERE id = #{id}
 	</update>
-	
+
 	<delete id="deleteMember" parameterType="str">
-		DELETE member WHERE id = #{id}
+		DELETE FROM member
+		WHERE id = #{id}	
 	</delete>
 	
 	<update id="disabledMember" parameterType="str">
-		UPDATE member SET enabled = 0
-		 WHERE id = #{id}
+		UPDATE member 
+		SET enabled = 0
+		WHERE id = #{id}
 	</update>
 	
 	<update id="enabledMember" parameterType="str">
-		UPDATE member SET enabled = 1
-		 WHERE id = #{id}
+		UPDATE member 
+		SET enabled = 1
+		WHERE id = #{id}
 	</update>
-
+	
 	<sql id="search">
-		 	<if test="searchType == 'i'.toString()">
-		 		AND id LIKE '%' || #{keyword} || '%'
-		 	</if>
-		 	<if test="searchType == 'p'.toString()">
-		 		AND phone LIKE '%' || #{keyword} || '%'
-		 	</if>
-		 	<if test="searchType == 'e'.toString()">
-		 		AND email LIKE '%' || #{keyword} || '%'
-		 	</if>
+		<if test="searchType == 'i'.toString()">
+		 	AND id LIKE '%' || #{keyword} || '%'
+		 </if>
+		 <if test="searchType == 'p'.toString()">
+		 	AND phone LIKE '%' || #{keyword} || '%'
+		 </if>
+		 <if test="searchType == 'e'.toString()">
+		 	AND email LIKE '%' || #{keyword} || '%'
+		 </if>
 	</sql>
 	
 	<select id="selectSearchMemberList" resultType="member">
@@ -89,11 +69,12 @@
 		 WHERE 1=1
 		 <include refid="search"/>
 	</select>
-
+	
 	<select id="selectSearchMemberListCount" resultType="int">
 		SELECT COUNT(*)
 		  FROM member
 		 WHERE 1=1
 		 <include refid="search"/>
 	</select>
+
 </mapper>

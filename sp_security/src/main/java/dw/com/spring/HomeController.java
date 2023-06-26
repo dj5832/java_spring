@@ -24,7 +24,7 @@ public class HomeController {
 	 */
 	
 	@RequestMapping("/home")
-	public void home() {};  // void로 설정하면 현재 호출한 url의 경로로 뷰를 찾는다.
+	public void home() {};	// void 로 설정하면 현재 호출한 url의 경로로 뷰를 찾는다.
 	
 	@RequestMapping("/member")
 	public void member() {};
@@ -36,7 +36,7 @@ public class HomeController {
 	public void admin() {};
 	
 	@RequestMapping("/common/loginForm")
-	public void loginForm() {};	
+	public void loginForm() {};
 	
 	@RequestMapping("/security/accessDenied")
 	public void accessDenied() {};

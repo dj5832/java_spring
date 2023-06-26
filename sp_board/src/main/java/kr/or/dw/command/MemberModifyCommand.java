@@ -10,17 +10,16 @@ public class MemberModifyCommand {
 	
 	private String id;
 	private String pwd;
-	private String name;
 	private String email;
 	private String phone;
+	private String name;
 	private String authority;
 	private String oldPicture;
 	private String uploadPicture;
 	private MultipartFile picture;
-
+	
 	public MemberVO toParseMember() {
 		MemberVO member = new MemberVO();
-		
 		member.setId(id);
 		member.setPwd(pwd);
 		member.setName(name);

@@ -10,13 +10,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
-public class loginFailureHandler extends SimpleUrlAuthenticationFailureHandler{
+public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler{
 
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
-		//redirect 할 때
-//		super.onAuthenticationFailure(request, response, exception);
+		// redirect 할 때
+		// super.onAuthenticationFailure(request, response, exception);
 		
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter out = response.getWriter();
@@ -25,7 +25,5 @@ public class loginFailureHandler extends SimpleUrlAuthenticationFailureHandler{
 		out.println("history.go(-1)");
 		out.println("</script>");
 	}
-
-	
 	
 }

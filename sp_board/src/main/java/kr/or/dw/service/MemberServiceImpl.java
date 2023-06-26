@@ -25,29 +25,23 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public void login(String id, String pwd, HttpSession session) throws SQLException {
 		MemberVO member = memberDAO.selectMemberById(id);
-	
+		
 		if(pwd.equals(member.getPwd())) {
 			System.out.println("[로그인 성공!!!] 회원의 정보를 세션에 저장합니다.");
 			session.setAttribute("loginUser", member);
 			session.setMaxInactiveInterval(5 * 60);
 		}
-		
-	
-		
 	}
 
 	@Override
-	public List<MemberVO> selectMemberList() throws SQLException {
-		
-		List<MemberVO> memberList = memberDAO.selectMemberList();
-		
+	public List<MemberVO> selectAllMemberList() throws SQLException {
+		List<MemberVO> memberList = memberDAO.selectAllMemberList();
 		return memberList;
 	}
 
 	@Override
 	public MemberVO selectMemberById(String id) throws SQLException {
 		MemberVO member = memberDAO.selectMemberById(id);
-		
 		return member;
 	}
 
@@ -60,16 +54,6 @@ public class MemberServiceImpl implements MemberService{
 	public void modify(MemberVO member) throws SQLException {
 		memberDAO.updateMember(member);
 	}
-
-//	@Override
-//	public void delete(String id) throws SQLException {
-//		memberDAO.deleteMember(id);
-//	}
-//
-//	@Override
-//	public void stop(String id) throws SQLException {
-//		memberDAO.stopMember(id);
-//	}
 
 	@Override
 	public void remove(String id) throws SQLException {
@@ -98,7 +82,6 @@ public class MemberServiceImpl implements MemberService{
 		memberList = memberDAO.selectSearchMemberList(cri, rowBounds);
 		
 		PageMaker pageMaker = new PageMaker();
-		
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(memberDAO.selectSearchMemberListCount(cri));
 		
@@ -108,6 +91,5 @@ public class MemberServiceImpl implements MemberService{
 		
 		return dataMap;
 	}
-
 
 }

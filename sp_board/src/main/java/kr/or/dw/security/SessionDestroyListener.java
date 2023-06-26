@@ -19,7 +19,7 @@ public class SessionDestroyListener implements ApplicationListener<SessionDestro
 				Authentication auth = ctx.getAuthentication();
 				
 				if(auth != null && auth.getDetails() != null) {
-					User user = (User)auth.getDetails();
+					User user = (User) auth.getDetails();
 					
 					MemberVO member = user.getMemberVO();
 					

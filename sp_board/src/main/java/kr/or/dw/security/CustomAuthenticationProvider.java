@@ -15,39 +15,37 @@ import kr.or.dw.dao.MemberDAO;
 import kr.or.dw.vo.MemberVO;
 
 public class CustomAuthenticationProvider implements AuthenticationProvider{
-
+	
 	@Autowired
 	private MemberDAO memberDAO;
 	
 	@Override
 	public Authentication authenticate(Authentication auth) throws AuthenticationException {
-		String login_id = (String) auth.getPrincipal(); // 로그인 시도한 ID를 가져온다.
-		String login_pwd = (String) auth.getCredentials(); // 로그인 시도한 password를 가져온다.
+		String login_id = (String) auth.getPrincipal();	// 로그인 시도한 ID를 가져온다.
+		String login_pwd = (String) auth.getCredentials();	// 로그인 시도한 PASSWORD 를 가져온다.
 		
 		MemberVO member = null;
-			
+		
 		try {
 			member = memberDAO.selectMemberById(login_id);
 		} catch (SQLException e) {
 			throw new AuthenticationServiceException("Internal server error !!"); 
 		}
-		if(member != null && login_pwd.equals(member.getPwd())) { // 로그인 성공
-			
+		
+		if(member != null && login_pwd.equals(member.getPwd())) {	// 로그인 성공
 			if(member.getEnabled() == 0) {
-				throw new DisabledException("정지된 계정입니다. \n 관리자에게 문의하세요.");
+				throw new DisabledException("정지된 계정입니다. \\n관리자에게 문의하세요.");
 			}
-
 			User authUser = new User(member);
 			
-			// 스프링 시큐리티 내부 클래스로 인증 토큰을 생성한다.
-			
-			UsernamePasswordAuthenticationToken result = 
+			// 스프링 시큐리티 내부 클래스로 인증 토큰 생성한다.
+			UsernamePasswordAuthenticationToken result =
 					new UsernamePasswordAuthenticationToken(authUser.getUsername(), authUser.getPassword(), authUser.getAuthorities());
 			// 전달할 내용을 설정한 후
 			result.setDetails(authUser);
 			// 리턴. default-target-url 로 전송된다.
 			return result;
-		}else { // 로그인 실패
+		}else {	// 로그인 실패
 			throw new BadCredentialsException("Bad ID or Password");
 		}
 		

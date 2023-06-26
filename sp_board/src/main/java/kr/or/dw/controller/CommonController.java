@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -62,30 +61,32 @@ public class CommonController {
 	
 	@RequestMapping("/common/LoginTimeOut")
 	public void loginTimeOut(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		
 		res.setContentType("text/html; charset=utf-8");
 		PrintWriter out = res.getWriter();
 		
 		out.println("<script>");
-		out.println("alert('세션이 만료되었습니다. \\n 다시 로그인하세요!')");
+		out.println("alert('세션이 만료되었습니다.\\n다시 로그인하세요!')");
 		out.println("location.href='/';");
 		out.println("</script>");
 		out.close();
 	}
 	
 	@RequestMapping("/common/LoginExpired")
-	public void loginExpired(HttpServletRequest req, HttpServletResponse res) throws Exception{
+	public void loginExpired(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		
 		res.setContentType("text/html; charset=utf-8");
 		PrintWriter out = res.getWriter();
 		
 		out.println("<script>");
-		out.println("alert('중복 로그인이 확인되었습니다. \\n 다시 로그인하면 다른 장치의 로그인이 해제됩니다!')");
+		out.println("alert('중복 로그인이 확인되었습니다.\\n 다시 로그인하면 다른 장치의 로그인은 해제됩니다!')");
 		out.println("location.href='/';");
 		out.println("</script>");
+		out.close();
 	}
 	
 	@RequestMapping("/index")
-	// defaultValue = 알아서 기본값을 설정해줌;
-	public ModelAndView index(@RequestParam(defaultValue="M000000") String mcode, ModelAndView mnv) throws SQLException{
+	public ModelAndView index(@RequestParam(defaultValue="M000000")String mcode, ModelAndView mnv) throws SQLException{
 		String url = "/common/indexPage.page";
 		
 		List<MenuVO> menuList = menuService.selectMainMenuList();
@@ -101,7 +102,6 @@ public class CommonController {
 	@RequestMapping("/main")
 	public String main() {
 		String url = "/common/main.open";
-		
 		return url;
 	}
 	

@@ -1,7 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page trimDirectiveWhitespaces="true"%>
+<%@ page trimDirectiveWhitespaces="true" %>
 
+<style>
+.content-wrapper {
+	background-color: #fff;
+}
+</style>
 <section class="content-header">
 	<div class="container-fluid">
 		<div class="row md-2">
@@ -18,9 +23,8 @@
 					<li class="breadcrumb-item active">
 						${param.item }
 					</li>
-					
 				</ol>
 			</div>
 		</div>
-	</div>
+	</div>	
 </section>

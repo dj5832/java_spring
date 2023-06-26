@@ -20,26 +20,26 @@
 							<input type="file" id="inputFile" name="picture" style="display:none;" onchange="imageChange_go();">
 							<div class="input-group col-md-12">
 								<div class="col-md-12" style="test-align: center;">
-									<div id="pictureView" style="border: 1px solid green; height: 150px; width: 140px; margin:0 auto; margin-bottom : 5px;"></div>
+									<div id="pictureView" style="border: 1px solid green; height: 180px; width: 140px; margin:0 auto; margin-bottom: 5px;"></div>
 									<div class="input-group input-group-sm">
 										<label for="inputFile" class="btn btn-warning btn-sm btn-flat input-group-addon">사진변경</label>
 										<input id="inputFileName" class="form-control" type="text" name="" disabled>
-										<input id="picture" class="form-control" type="hidden" name="uploadPicture" value="">
+										<input id="picture" class="form-control" type="hidden" name="uploadPicture">
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="form-group row">
 							<label for="id" class="col-sm-3" style="font-size: 0.9em;">
-								아이디
+								<span style="color: red; font-weight:bold;">*</span>아이디
 							</label>
 							<div class="col-sm-9 input-group input-group-sm">
-								<input name="id" type="text" id="id" class="form-control" value="${member.id }" readonly>
+								<input name="id" type="text" id="id" class="form-control" value="${member.id }"	readonly>
 							</div>
 						</div>
 						<div class="form-group row">
 							<label for="pwd" class="col-sm-3" style="font-size: 0.9em;">
-								패스워드
+								<span style="color: red; font-weight:bold;">*</span>패스워드
 							</label>
 							<div class="col-sm-9 input-group-sm">
 								<input name="pwd" type="password" id="pwd" class="form-control" value="${member.pwd }" placeholder="20자 영문,숫자,특수문자 조합">
@@ -47,7 +47,7 @@
 						</div>
 						<div class="form-group row">
 							<label for="name" class="col-sm-3" style="font-size: 0.9em;">
-								이 름 
+								<span style="color: red; font-weight:bold;">*</span>이 름 
 							</label>
 							<div class="col-sm-9 input-group-sm">
 								<input name="name" type="text" id="name" class="form-control" value="${member.name }" placeholder="이름을 입력하세요">
@@ -57,16 +57,16 @@
 							<label for="authority" class="col-sm-3" style="font-size: 0.9em;">권 한</label>
 							<div class="col-sm-9 input-group-sm">
 								<select name="authority" class="form-control" style="font-size: 0.9em;">
-									<option value="ROLE_USER" ${member.authority eq 'ROLE_USER' ? 'selected' : ""}>사용자</option>
-									<option value="ROLE_MANAGER" ${member.authority eq 'ROLE_MANAGER' ? 'selected' : ""}>운영자</option>
-									<option value="ROLE_ADMIN" ${member.authority eq 'ROLE_ADMIN' ? 'selected' : ""}>관리자</option>
+									<option value="ROLE_USER" ${member.authority eq 'ROLE_USER' ? 'selected' : ''}>사용자</option>
+									<option value="ROLE_MANAGER" ${member.authority eq 'ROLE_MANAGER' ? 'selected' : ''}>운영자</option>
+									<option value="ROLE_ADMIN" ${member.authority eq 'ROLE_ADMIN' ? 'selected' : ''}>관리자</option>
 								</select>
 							</div>
 						</div>
 						<div class="form-group row">
 							<label for="email" class="col-sm-3" style="font-size: 0.9em;">이메일</label>
 							<div class="col-sm-9 input-group-sm">
-								<input name="email" type="text" id="email" class="form-control" value="${member.email}" placeholder="example@naver.com">
+								<input name="email" type="text" id="email" class="form-control" value="${member.email }" placeholder="example@naver.com">
 							</div>
 						</div>
 						<div class="form-group row">
@@ -80,7 +80,7 @@
 						<div class="card-footer">
 							<div class="row">
 								<div class="col-sm-6">
-									<button type="button" id="modifyBtn" class="btn btn-info">저장하기</button>
+									<button type="button" id="modifyBtn" class="btn btn-info">수정하기</button>
 								</div>
 								<div class="col-sm-6">
 									<button type="button" id="cancelBtn" class="btn btn-danger float-right">&nbsp;&nbsp;&nbsp;취&nbsp;&nbsp;소&nbsp;&nbsp;&nbsp;</button>
@@ -94,8 +94,6 @@
 	</section>
 </div>
 <%@ include file="modify_js.jsp" %>
-
-
 
 
 

@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>admin 메인 화면입니다.</h1>
+	<h1>admin 메인화면입니다.</h1>
 	<br>
 	<a href="/">[/index로 가기]</a>
 </body>

@@ -24,23 +24,30 @@ public class SearchCriteria {
 		if(page != null && !page.isEmpty()) this.page = Integer.parseInt(page);
 		if(perPageNum != null && !perPageNum.isEmpty()) this.perPageNum = Integer.parseInt(perPageNum);
 		if(searchType != null) this.searchType = searchType;
-		if(keyword != null)this.keyword = keyword;
+		if(keyword != null) this.keyword = keyword;
 	}
 	
 	public int getPageStartRowNum() {
 		return (this.page - 1) * perPageNum;
 	}
 	
-	public void setPage(String page) {	// 스트링으로 넘어오는 것도 받을 수 있도록 set 메서드 하나 더 만듦
+	public void setPage(String page) {	// 스트링으로 넘어오는 것도 받을 수 있도록 set 메서드 하나 더 만듬
 		if(page != null && !page.isEmpty()) {
 			this.page = Integer.parseInt(page);
 		}
 	}
-
-	public void perPageNum(String perPageNum) {
+	
+	public void setPerPageNum(String perPageNum) {
 		if(perPageNum != null && !perPageNum.isEmpty()) {
 			this.perPageNum = Integer.parseInt(perPageNum);
 		}
 	}
+	
+	
+	
+	
+	
+	
+	
 	
 }

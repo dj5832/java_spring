@@ -22,7 +22,6 @@
 	}
 
 	function subMenu(mcode){
-		console.log(mcode)
 		if(mcode != 'M000000'){
 			$.ajax({
 				url : "<%=request.getContextPath()%>/common/subMenu.do?mcode="+mcode,
@@ -51,7 +50,7 @@
 			if(mcode != 'M000000'){
 				renewURL += "?mcode=" + mcode;
 			};
-			console.log(renewURL);
+// 			console.log(renewURL);
 			
 			// 기본 형태 - history.pushState(state, title, url);
 			// state : 브라우저 이동 시 넘겨줄 데이터
@@ -60,10 +59,8 @@
 			history.pushState(mcode, null, renewURL);
 		};
 		$('#if_list').attr('src', '<%=request.getContextPath()%>' + murl);		
-		
 	};
-	
-	subMenu('${menu.mcode}'.substring(0,3)+"0000");
 	goPage('${menu.murl}', '${menu.mcode}');
+	subMenu('${menu.mcode}'.substring(0,3)+"0000");
 	
 </script>

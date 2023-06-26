@@ -1,6 +1,7 @@
 package kr.or.dw.security;
 
 import java.io.IOException;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +15,7 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 
 import kr.or.dw.vo.MemberVO;
 
-public class loginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler{
+public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler{
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -29,5 +30,7 @@ public class loginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 		
 		super.onAuthenticationSuccess(request, response, authentication);
 	}
-
+	
+	
+	
 }

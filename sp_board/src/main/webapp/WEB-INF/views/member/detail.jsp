@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <div>
 
@@ -55,16 +55,15 @@
 						
 						<div class="card-footer">
 							<div class="row">
-<!-- 							 c:set으로 value를 var에 담는다. -->
-								<c:set var="visible" value="none" /> 		
+								<c:set var="visible" value="none"/>
 								<sec:authorize access="hasRole('ROLE_ADMIN')">
-									<c:set var="visible" value="visible" />
+									<c:set var="visible" value="visible"/>
 								</sec:authorize>
 								<div class="col-sm-3 text-center">
 									<button type="button" id="modifyBtn" class="btn btn-warning" style="display: ${visible}">수 정</button>
 								</div>
 								<div class="col-sm-3 text-center">
-									<button type="button" id="removeBtn" class="btn btn-danger" style="display: ${visible}">삭 제</button>
+									<button type="button" id="deleteBtn" class="btn btn-danger" style="display: ${visible}">삭 제</button>
 								</div>
 								<div class="col-sm-3 text-center">
 									<button type="button" id="stopBtn" class="btn btn-info" style="display: ${visible}">${member.enabled == 1 ? '정 지' : '해 제' }</button>
@@ -79,6 +78,7 @@
 			</div>
 		</div>
 	</section>
+
 </div>
 
 <%@ include file="detail_js.jsp" %>

@@ -51,7 +51,7 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/list")
-	public ModelAndView list(ModelAndView mnv, SearchCriteria cri) throws SQLException {
+	public ModelAndView list(ModelAndView mnv, SearchCriteria cri) throws SQLException{
 		String url = "/member/list.open";
 		
 		Map<String, Object> dataMap = memberService.selectSearchMemberList(cri);
@@ -62,27 +62,27 @@ public class MemberController {
 		return mnv;
 	}
 	
-	// 회원등록
+	// 회원등록 양식
 	@RequestMapping("/registForm")
 	public String registForm() {
-		String url = "/member/regist.open";
-		
+		String url = "member/regist.open";
 		return url;
 	}
-	// 회원등록 양식
+	
+	// 회원등록
 	@RequestMapping("/regist")
-	public void regist(MemberRegistCommand memberReq, HttpServletRequest req, HttpServletResponse res) throws SQLException, IOException {
-		MemberVO member = memberReq.toMemberVO();
-		memberService.regist(member);
-		
-		res.setContentType("text/html; charset=utf-8");
-		PrintWriter out = res.getWriter();
-		out.println("<script>");
-		out.println("alert('회원등록이 정상적으로 되었습니다.')");
-		out.println("window.opener.location.href='" + req.getContextPath() + "/member/list.do';");
-		out.println("window.close();");
-		out.println("</script>");
-	}
+	   public void regist(MemberRegistCommand memberReq, HttpServletRequest req, HttpServletResponse res) throws SQLException, IOException {
+	      MemberVO member = memberReq.toMemberVO();
+	      memberService.regist(member);
+	      
+	      res.setContentType("text/html; charset=utf-8");
+	      PrintWriter out = res.getWriter();
+	      out.println("<script>");
+	      out.println("alert('회원등록이 정상적으로 되었습니다.');");
+	      out.println("window.opener.location.href='" + req.getContextPath() + "/member/list.do';");
+	      out.println("window.close();");
+	      out.println("</script>");
+	   }
 	
 	// 아이디 중복확인
 	@RequestMapping("/idCheck")
@@ -97,33 +97,35 @@ public class MemberController {
 			e.printStackTrace();
 			entity = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		
 		return entity;
 	}
 	
 	@RequestMapping("/detail")
-	public ModelAndView detailForm(ModelAndView mnv, String id) throws SQLException {
+	public ModelAndView detail(String id, ModelAndView mnv) throws SQLException{
 		String url = "/member/detail.open";
 		
 		MemberVO member = memberService.selectMemberById(id);
-		
 		mnv.addObject("member", member);
 		mnv.setViewName(url);
+		
 		return mnv;
+		
 	}
 	
 	@RequestMapping("/modifyForm")
-	public ModelAndView modifyForm(String id, ModelAndView mnv)throws SQLException{
+	public ModelAndView modifyForm(String id, ModelAndView mnv) throws SQLException{
 		String url = "/member/modify.open";
 		
 		MemberVO member = memberService.selectMemberById(id);
-		
 		mnv.addObject("member", member);
 		mnv.setViewName(url);
+		
 		return mnv;
 	}
 	
 	@RequestMapping("/modify")
-	public void modify(MemberModifyCommand modifyReq, HttpServletResponse res) throws Exception{
+	public void modify(MemberModifyCommand modifyReq, HttpServletResponse res) throws Exception {
 		MemberVO member = modifyReq.toParseMember();
 		
 		String fileName = savePicture(modifyReq.getPicture(), modifyReq.getOldPicture());
@@ -137,11 +139,10 @@ public class MemberController {
 		
 		res.setContentType("text/html; charset=utf-8");
 		PrintWriter out = res.getWriter();
-		String output = "" + "<script>" + "alert('수정되었습니다.');" + "location.href='detail.do?id=" + member.getId()
-		+ "';" + "window.opener.location.reload();" + "</script>";
+		String output = "" + "<script>" + "alert('수정되었습니다.');" + "location.href='detail.do?id=" + member.getId() + "';"
+				+ "window.opener.parent.location.reload();" + "</script>";
 		out.println(output);
 		out.close();
-		
 	}
 	
 	@RequestMapping("/remove")
@@ -150,7 +151,7 @@ public class MemberController {
 		
 		MemberVO member = null;
 		
-		// 이미지 파일 삭제
+		// 이미지 파일을 삭제
 		member = memberService.selectMemberById(id);
 		
 		String savePath = this.picturePath;
@@ -161,7 +162,7 @@ public class MemberController {
 		
 		memberService.remove(id);
 		
-		// 삭제되는 회원이 로그인 회원인 경우 로그아웃을 해야함.
+		// 삭제되는 회원이 로그인 회원인경우 로그아웃 해야함.
 		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
 		if(loginUser.getId().equals(member.getId())) {
 			session.invalidate();
@@ -171,29 +172,22 @@ public class MemberController {
 		mnv.setViewName(url);
 		
 		return mnv;
+		
 	}
 	
 	@RequestMapping("/stop")
 	public ModelAndView stop(String id, HttpSession session, ModelAndView mnv) throws SQLException {
 		String url = "/member/stopSuccess";
 		
-		MemberVO member = null;
-		
-		member = memberService.selectMemberById(id);
-		
 		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
 		if(id.equals(loginUser.getId())) {
 			url = "/member/stopFail";
 		}else {
-//			if(member.getEnabled() == 1) {
-				memberService.disabled(id);				
-//			}else {
-//				memberService.enabled(id);
-//			}
+			memberService.disabled(id);
 		}
 		
-		mnv.addObject("msg", "정지");
 		mnv.addObject("id", id);
+		mnv.addObject("msg", "정지");
 		mnv.setViewName(url);
 		
 		return mnv;
@@ -205,42 +199,12 @@ public class MemberController {
 		
 		memberService.enabled(id);
 		
-		mnv.addObject("msg", "정지해제");
 		mnv.addObject("id", id);
+		mnv.addObject("msg", "해제");
 		mnv.setViewName(url);
 		
 		return mnv;
 	}
-	
-//	@RequestMapping("/delete")
-//	public String delete(String id, HttpServletResponse res) throws Exception{
-//		memberService.delete(id);
-//
-//		res.setContentType("text/html; charset=utf-8");
-//		PrintWriter out = res.getWriter();
-//		out.println("<script>");
-//		out.println("alert('회원삭제가 정상적으로 되었습니다.')");
-//		out.println("window.opener.location.href='/member/list.do';");
-//		out.println("window.close();");
-//		out.println("</script>");
-//		
-//		return null;
-//	}
-	
-//	@RequestMapping("/stop")
-//	public void stop(String id, HttpServletResponse res) throws Exception {
-//		
-//		memberService.stop(id);
-//		
-//		res.setContentType("text/html; charset=utf-8");
-//		PrintWriter out = res.getWriter();
-//		out.println("<script>");
-//		out.println("alert('회원정지가 정상적으로 되었습니다.')");
-//		out.println("location.href='/member/detail.do?id="+id+"';");
-//		out.println("window.opener.location.reload();");
-//		out.println("</script>");
-//	}
-	
 	
 	@RequestMapping("/picture")
 	public ResponseEntity<String> picture(@RequestParam("pictureFile") MultipartFile multi, String oldPicture) throws Exception{
@@ -250,13 +214,14 @@ public class MemberController {
 		HttpStatus status = null;
 		
 		if((result = savePicture(multi, oldPicture)) == null) {
-			result = "업로드에 실패했습니다!";
+			result = "업로드를 실패했습니다!!";
 			status = HttpStatus.BAD_REQUEST;
 		}else {
 			status = HttpStatus.OK;
 		}
 		
 		entity = new ResponseEntity<String>(result, status);
+		
 		return entity;
 	}
 	
@@ -264,11 +229,12 @@ public class MemberController {
 	private String picturePath;
 	
 	/*
-	 *  @Resource는 @AutoWired와 같이 property injection 을 위한 어노테이션이다.
-	 *  차이점은
-	 *  @AutoWired는 객체의 타입을 보고 맵핑이 된다면
-	 *  @Resource는 객체의 name(id)를 보고 맵핑이 된다.
-	 *  @Resource() 괄호에 객체 name을 명시하지 않으면 @AutoWired 처럼 해당 레퍼런스변수의 타입과 똑같은 객체 name을 찾는다.
+	 	@Resource는 @AutoWired 와 같이 property injection 을 위한 어노테이션이다.
+	 	차이점은
+	 	@Autowired는 객체 타입을 보고 맵핑 된다면
+	 	@Resource 는 객체 name(id)를 보고 맵핑이 된다.
+	 	@Resource() 괄호에 객체 name을 명시하지 않으면 @Autowired 처럼 해당 레퍼런스변수의 타입과 똑같은 객체 name을 찾는다.
+	 	
 	 */
 	
 	private String savePicture(MultipartFile multi, String oldPicture) throws Exception {
@@ -276,8 +242,8 @@ public class MemberController {
 		String fileName = null;
 		
 		/* 파일 유무 확인 */
-		if(!(multi == null || multi.isEmpty() || multi.getSize() > 1024 * 1024 * 1)) {
-			/* 파일 저장 폴터 설정 */
+		if(!(multi == null || multi.isEmpty() || multi.getSize() > 1024 * 1024 * 1)){
+			/* 파일 저장 폴더 설정 */
 			String uploadPath = picturePath;
 			fileName = UUID.randomUUID().toString().replace("-", "") + ".jpg";
 			File storeFile = new File(uploadPath, fileName);
@@ -294,11 +260,12 @@ public class MemberController {
 				};
 			};
 		};
+		
 		return fileName;
 	}
 	
 	@RequestMapping("/getPicture")
-	public ResponseEntity<byte[]> getPicture(String picture) throws Exception{
+	public ResponseEntity<byte[]> getPicture(String picture) throws Exception {
 		InputStream in = null;
 		ResponseEntity<byte[]> entity = null;
 		String imgPath = this.picturePath;
@@ -306,14 +273,19 @@ public class MemberController {
 		try {
 			in = new FileInputStream(new File(imgPath, picture));
 			
-			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), HttpStatus.CREATED);	
+			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), HttpStatus.CREATED);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			entity = new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
-		} finally {
+		}finally {
 			in.close();
 		}
+		
 		return entity;
 	}
+	
+	
+	
+	
 	
 }
