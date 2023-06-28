@@ -14,10 +14,11 @@ public class BoardVO {
 	private Date regdate;
 	private int viewcnt;
 	private Date updatedate;
+	private int replycnt; 	// 댓글 개수
 	
-	public BoardVO() {}
+	public BoardVO() {};
 
-	public BoardVO(int bno, String title, String writer, String content, Date regdate, int viewcnt, Date updatedate) {
+	public BoardVO(int bno, String title, String writer, String content, Date regdate, int viewcnt, Date updatedate, int replycnt) {
 		super();
 		this.bno = bno;
 		this.title = title;
@@ -26,6 +27,7 @@ public class BoardVO {
 		this.regdate = regdate;
 		this.viewcnt = viewcnt;
 		this.updatedate = updatedate;
+		this.replycnt = replycnt;
 	};
 	
 }

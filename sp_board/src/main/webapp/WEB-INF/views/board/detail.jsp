@@ -44,6 +44,33 @@
 					<button type="button" id="modifyBtn" class="btn btn-warning">MODIFY</button>
 					<button type="button" id="removeBtn" class="btn btn-danger">REMOVE</button>
 					<button type="button" id="listBtn" class="btn btn-primary">CLOSE</button>
+				</div><!-- card footer End -->
+			</div>
+		</div><!-- row End -->
+		
+		<div class="row">	<!-- reply component Start -->
+			<div class="col-md-12">
+				<div class="card card-info">
+					<div class="card-body"><!-- card Body Start -->
+						<div class="timeline">	<!-- timeline Start -->
+							<div class="time-label" id="repliesDiv">
+								<span class="bg-green">Replies List</span>
+							</div>
+						</div><!-- timeline End -->
+						<div class="text-center">
+							<ul id="pagination" class="pagination justify-content-center m-0">
+								
+							</ul>
+						</div>
+					</div> <!-- card body End -->
+					<div class="card-footer"> <!-- card footer Start -->
+						<label for="newReplyWriter">Writer</label>
+						<input class="form-control" type="hidden" id="newReplyWriter" readonly value="${loginUser.id }">
+						<label for="newReplyText">Reply Text</label>
+						<input class="form-control" type="text" id="newReplyText" placeholder="REPLY TEXT"">
+						<br>
+						<button type="button" class="btn btn-primary" id="replyAddBtn">ADD REPLY</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -54,9 +81,31 @@
 	<input type="hidden" name="bno" value="${board.bno }">
 </form>
 
+<!-- Modal -->
+<div id="modifyModal" class="modal modal-default fade" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" style="display:none;"></h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body" data-rno>
+				<p><input type="text" id="replytext" class="form-control"></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-info" id="replyModBtn">MODIFY</button>
+				<button type="button" class="btn btn-danger" id="replyDelBtn">DELETE</button>
+				<button type="button" class="btn btn-default" id="cancelBtn">CLOSE</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <script>
 	window.onload = function(){
 		
+	ShowReply();
+
 	let formObj = $('form[role="form"]');
 
 	$('button#modifyBtn').on('click', function(){
@@ -80,6 +129,8 @@
 		window.close();
 	});
 
-	}
+}
 
 </script>
+
+<%@ include file="reply_js.jsp"%>

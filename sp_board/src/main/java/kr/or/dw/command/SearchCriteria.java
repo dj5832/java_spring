@@ -42,12 +42,10 @@ public class SearchCriteria {
 			this.perPageNum = Integer.parseInt(perPageNum);
 		}
 	}
+
+	public void setPage(int page) {	
+			this.page = page;
+		}
+	}
 	
 	
-	
-	
-	
-	
-	
-	
-}
