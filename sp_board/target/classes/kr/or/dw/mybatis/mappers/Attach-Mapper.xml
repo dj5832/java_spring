@@ -9,4 +9,23 @@
 					VALUES (attach_seq.nextval, #{uploadPath}, #{fileName}, #{fileType}, #{pno}, #{attacher}, SYSDATE)
 	</insert>
 
+	<select id="selectAttachByPno" parameterType="int" resultType="attach">
+		SELECT *
+		  FROM attach
+		 WHERE pno = #{pno}
+	</select>
+
+	<select id="selectAttachByAno" parameterType="int" resultType="attach">
+		SELECT *
+		  FROM attach
+		 WHERE ano = #{ano}
+	</select>
+	
+	<delete id="deleteAttach" parameterType="int">
+		DELETE attach WHERE ano = #{ano}
+	</delete>
+
+	<delete id="deleteAllAttach" parameterType="int">
+		DELETE attach WHERE pno = #{pno}
+	</delete>
 </mapper>
