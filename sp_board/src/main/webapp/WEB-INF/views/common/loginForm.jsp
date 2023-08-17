@@ -60,7 +60,6 @@ body.login-page{
 					<div class="col-sm-4">
 						<button type="submit" class="btn btn-primary btn-block btn-flat">로그인</button>
 					</div>
-					<!-- /.col -->
 				</div>
 			</form>
 

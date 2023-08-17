@@ -40,6 +40,20 @@
 		  c:sqlSessionFactory-ref="sqlSessionFactory"
 	/>
 
+	<!-- mailSender bean생성 -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com"/>	<!-- gmail전용 value -->
+		<property name="port" value="587"/>				<!-- gamil TLS(데이터 암호화) -->
+		<property name="username" value="ehdehdwn131@gmail.com"/>
+		<property name="password" value="qkdrneowkd33#"/>
+		<property name="defaultEncoding" value="utf-8"/>
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+			</props>
+		</property>
+	</bean>
 	<mybatis-spring:scan base-package="kr.or.dw" annotation="org.apache.ibatis.annotations.Mapper"/>
 	
 </beans>

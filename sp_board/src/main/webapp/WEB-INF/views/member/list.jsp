@@ -43,7 +43,6 @@
 								data--card-widget="search" onclick="searchList_go(1);">
 								<i class="fa fa-fw fa-search"></i>
 							</button>
-
 						</span>
 						<!-- end : search bar -->
 

@@ -18,5 +18,4 @@
 	<bean id="boardService" class="kr.or.dw.service.BoardServiceImpl"/>
 	<bean id="replyService" class="kr.or.dw.service.ReplyServiceImpl"/>
 	<bean id="pdsService" class="kr.or.dw.service.PdsServiceImpl"/>
-
 </beans>
